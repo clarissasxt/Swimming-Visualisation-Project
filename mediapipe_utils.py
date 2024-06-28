@@ -55,7 +55,7 @@ def draw_landmarks_on_image(rgb_image, detection_result):
 
 
 def write_pose_video(inp_video, csv_file, out_video, frame_lock, current_frame):
-    fieldnames = ['15', '16', '13', '14']
+    fieldnames = ['15', '16', '13', '14', '23', '24']
     with open(csv_file, 'w') as file:
         csv_writer = csv.DictWriter(file, fieldnames=fieldnames)
         csv_writer.writeheader()
@@ -98,10 +98,12 @@ def write_pose_video(inp_video, csv_file, out_video, frame_lock, current_frame):
                             '16': int(pose_landmarker_result.pose_landmarks[0][16].x*w),
                             '13': int(pose_landmarker_result.pose_landmarks[0][13].x*w),
                             '14': int(pose_landmarker_result.pose_landmarks[0][14].x*w),
+                            '23': int(pose_landmarker_result.pose_landmarks[0][23].x * w),
+                            '24': int(pose_landmarker_result.pose_landmarks[0][24].x * w)
                         }
                     else:
                         info = {
-                            '15': None, '16': None, '13': None, '14': None
+                            '15': None, '16': None, '13': None, '14': None, '23': None, '24': None
                         }
                     csv_writer.writerow(info)
                     logging.info(info)
