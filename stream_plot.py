@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
-import matplotlib.animation as animation 
+from matplotlib.animation import FuncAnimation, writers
 import pandas as pd
 from mediapipe_utils import write_pose_video
 import threading
@@ -82,16 +81,14 @@ if __name__ == '__main__':
     ax3 = plt.subplot2grid((3, 3), (0, 2))
     ax4 = plt.subplot2grid((3, 3), (1, 0), colspan=3, rowspan=2)
 
-    ani = FuncAnimation(fig, animate, fargs=(CSV_FILE, ax1, ax2, ax3, ax4, frame_lock, current_frame), interval=100)
+    ani = FuncAnimation(fig, animate, fargs=(CSV_FILE, ax1, ax2, ax3, ax4, frame_lock, current_frame), interval=10, frames=1000)
     plt.tight_layout()
     plt.show()
-
     
-    # ani.save(OUT_VIDEO_FILE, writer='ffmpeg', fps=30)
-    # plt.close()
-    
-    ani.save(OUTPUT_VISUALIZATION_FILE, writer='ffmpeg', fps=30) 
-    plt.close() 
+    Writer = writers['ffmpeg']
+    writer = Writer(fps=15, metadata={'artist': 'Me'}, bitrate=1800)
+    ani.save(OUTPUT_VISUALIZATION_FILE, writer) 
+    # plt.close() 
     
     t1.join()
 
